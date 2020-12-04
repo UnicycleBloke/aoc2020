@@ -2,6 +2,27 @@ import sys
 import re
 
 
+def part1(docs):
+    print('Part 1')
+
+    # TODO Use data structure
+    valid = 0
+    for doc in docs:
+        print(doc)
+        fields = doc.split()
+        keys = []
+        for field in fields:
+            keys.append(field.split(':')[0])
+
+        print(keys)  
+        good = 'ecl' in keys and 'pid' in keys and 'eyr' in keys and 'hcl' in keys and 'byr' in keys and 'iyr' in keys and 'hgt' in keys #and 'cid' in keys 
+
+        if good == True:
+            valid = valid + 1    
+
+    print ('Valid:', valid)
+
+
 def is_field_valid(key, value):
     # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
     if key == 'ecl':
@@ -61,27 +82,6 @@ def is_field_valid(key, value):
     return True
 
 
-def part1(docs):
-    print('Part 1')
-
-    # TODO Use data structure
-    valid = 0
-    for doc in docs:
-        print(doc)
-        fields = doc.split()
-        keys = []
-        for field in fields:
-            keys.append(field.split(':')[0])
-
-        print(keys)  
-        good = 'ecl' in keys and 'pid' in keys and 'eyr' in keys and 'hcl' in keys and 'byr' in keys and 'iyr' in keys and 'hgt' in keys #and 'cid' in keys 
-
-        if good == True:
-            valid = valid + 1    
-
-    print ('Valid:', valid)
-
-
 def is_present_and_valid(key, map):
     if not key in map:
         print('%s missing' % (key))
@@ -125,8 +125,6 @@ def part2(docs):
             valid = valid + 1
 
     print('Valid:', valid)
-
-    pass
 
 
 def solution(filename):
