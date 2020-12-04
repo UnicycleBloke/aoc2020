@@ -49,6 +49,8 @@ def is_field_valid(key, value):
     # pid (Passport ID) - a nine-digit number, including leading zeroes.
     elif key == 'pid':
         m = re.match('^\d{9}$', value)
+        if m == None:
+            print('pid invalid = "%s"' % (value))
         return m != None
 
     # cid (Country ID) - ignored, missing or not.
@@ -69,7 +71,7 @@ def is_present_and_valid(key, map):
     if not is_present(key, map):
         return False
     elif not is_field_valid(key, map[key]):
-        #print('%s invalid = %s' % (key, map[key]))
+        #print('%s invalid = "%s"' % (key, map[key]))
         return False
     return True
 
