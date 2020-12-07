@@ -3,8 +3,8 @@ import re
 'striped fuchsia bags contain 2 shiny teal bags, 4 striped aqua bags, 4 dull lavender bags, 2 dull crimson bags.'
 
 rules = {}
-for line in open('aoc7-test.txt').readlines():
-#for line in open('aoc7-input.txt').readlines():
+#for line in open('aoc7-test.txt').readlines():
+for line in open('aoc7-input.txt').readlines():
     line = line.strip()
     line = line.replace('bags', ':')
     line = line.replace('bag', ':')
@@ -25,40 +25,38 @@ for line in open('aoc7-test.txt').readlines():
 #print(rules)  
 
 
-# def allow_shiny_gold(rules, rule):
-#     print(rule)
-#     for inner in rules[rule]:
-#         print(inner)
-#         if inner[1] == 'shiny gold':
-#             return True
-#         else:
-#             if allow_shiny_gold(rules, inner[1]): 
-#                 return True
-#     print()
-
-
-def allow_shiny_gold(rules, rule):
-    #print(rule, rules[rule])
-    result = 0
+def contain_gold(rules, rule, indent):
+    print(' ' * indent, rule)
     for inner in rules[rule]:
         if inner[1] == 'shiny gold':
-            print(rule)
-            result = 1
-            return result
+            print(' ' * (indent + 4), 'YYYY')
+            return True
         else:
-            result = allow_shiny_gold(rules, inner[1])
-    return result
-            
+            if contain_gold(rules, inner[1], indent + 4) == True:
+                return True
+    print(' ' * (indent + 4), 'NNNN')
+    return False
 
-def contain_gold(rules, rule):
+
+def how_many(rules, rule, indent):
+    sum = 0
+    print(' ' * indent, rule)
+    indent += 4
     for inner in rules[rule]:
-        if inner[1] == 'shiny gold':
-            return rule
-    return None
+        print(' ' * indent, inner[1], inner[0])
+        sum += inner[0]
+        sum += inner[0] * how_many(rules, inner[1], indent + 4)
+    return sum
 
 
-sum = 0
-for rule in rules:
-#    sum += allow_shiny_gold(rules, rule)
-    print(contain_gold(rules, rule))
+
+# sum = 0
+# for rule in rules:
+#     if contain_gold(rules, rule, 4):
+#         sum += 1
+
+# print(sum)
+
+print(how_many(rules, 'shiny gold', 4))
+
 
