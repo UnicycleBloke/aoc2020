@@ -74,7 +74,7 @@ static inline void trim(std::string& s)
 }
 
 
-int main(int argc, char** argv)
+int main2(int argc, char** argv)
 {
     if (argc > 1)
     {
@@ -110,4 +110,6 @@ int main(int argc, char** argv)
             }
         }
     }
+
+    return 0;
 }
