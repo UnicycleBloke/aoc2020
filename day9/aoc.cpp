@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <regex>
+#include <filesystem>
 #include "utils.h"
 
 
@@ -21,18 +22,12 @@ void part2()
 }
 
 
-int main(int argc, char** argv)
+void solution(std::istream& is)
 {
-    if (argc < 2)
-    {
-        std::cout << "Provide input file name\n";
-        return -1;
-    }
-
-    std::ifstream is{argv[1]};
     auto lines = aoc::read_lines(is);
     //auto lines = aoc::read_groups(is);
 
+    // Place holder for creating data structure.
     for (const auto& line: lines)
     {
         cout << line << "\n\n";
@@ -40,4 +35,22 @@ int main(int argc, char** argv)
 
     part1();
     part2();
+}
+
+
+int main(int argc, char** argv)
+{
+    if (argc < 2)
+    {
+        std::cout << "Provide input file name\n";
+        return -1;
+    }
+    if (!std::filesystem::is_regular_file(argv[1]))
+    {
+        std::cout << "Provide valid input file name\n";
+        return -1;
+    }
+
+    std::ifstream is{argv[1]};
+    solution(is);
 }

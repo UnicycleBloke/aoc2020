@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10) 
 
-set(AOC_PROGRAM_NAME "day9")
+set(AOC_PROGRAM_NAME "aoc")
 
 project(${AOC_PROGRAM_NAME} LANGUAGES CXX)
 
 add_executable(${AOC_PROGRAM_NAME}
-    day9.cpp
+    aoc.cpp
     ../utils/utils.cpp
 )
 
