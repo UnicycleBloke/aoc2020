@@ -1,4 +1,5 @@
-#include "aoc_utils.h"
+#include "utils.h"
+#include <sstream>
 
 
 namespace aoc {
@@ -41,8 +42,8 @@ std::vector<std::string> split(std::string source, std::string delim, bool allow
 {
     std::vector<std::string> result;
 
-    auto start = 0U;
-    auto end = source.find(delim);
+    size_t start = 0;
+    size_t end = source.find(delim);
     while (end != std::string::npos)
     {
         auto sub = source.substr(start, end - start);
@@ -72,6 +73,36 @@ std::vector<std::string> read_lines(std::istream& is, bool allow_blanks)
     }
 
     return lines;
+}
+
+
+std::vector<std::string> read_groups(std::istream& is)
+{
+    std::ostringstream       ss;
+    std::vector<std::string> groups;
+    std::vector<std::string> lines = read_lines(is, true);
+
+    for (const auto& line: lines)
+    {
+        if (line.size() > 0)
+        {
+            ss << line << ' ';
+        }
+        else
+        {
+            auto group = ss.str();
+            if (group.size() > 0)
+                groups.push_back(group);
+            ss.str("");
+            ss.clear();
+        }        
+    }
+
+    auto group = ss.str();
+    if (group.size() > 0)
+        groups.push_back(group);
+
+    return groups;
 }
 
 

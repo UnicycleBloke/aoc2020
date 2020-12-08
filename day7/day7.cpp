@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <regex>
-#include "aoc_utils.h"
+#include "utils.h"
 
 
 using namespace std;
@@ -54,6 +54,12 @@ void part2(map<string, vector<pair<int, string>>>& rules)
 
 int main(int argc, char** argv)
 {
+    if (argc < 2)
+    {
+        std::cout << "Provide input file name\n";
+        return -1;
+    }
+
     map<string, vector<pair<int, string>>> data;
 
     std::ifstream is{argv[1]};
