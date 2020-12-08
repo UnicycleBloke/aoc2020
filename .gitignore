@@ -1,2 +1,2 @@
-day7/build/
-day8/build/
+day*/build/
+*.pyc
