@@ -29,9 +29,11 @@ def run(prog, part1):
         elif inst[0] == 'jmp':     
             pc  += inst[1]
 
+
 def part1(prog):
     print('Part1:')
     run(prog, True)
+
 
 def part2(prog):
     print('Part2:')
@@ -63,7 +65,8 @@ def main():
 
     # Deep copy prog because Python
     part1([p[:] for p in prog])
-    part2([p[:] for p in prog])    
+    #part2([p[:] for p in prog])    
+
 
 if __name__ == '__main__':
     main()
