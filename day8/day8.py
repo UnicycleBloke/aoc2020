@@ -4,6 +4,7 @@ import os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import utils.utils as ut
 
+
 def run(prog, part1):
     acc = 0
     pc  = 0
