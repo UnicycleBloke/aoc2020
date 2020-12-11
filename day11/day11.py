@@ -3,12 +3,11 @@ import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import utils.utils as ut
+from copy import deepcopy
 
 
 def pack1(rows):
-    rows2 = []
-    for row in rows:
-        rows2.append(row[:])
+    rows2 = deepcopy(rows)
 
     for r in range(1, len(rows) - 1):
         for c in range(1, len(rows[0]) - 1):
@@ -38,9 +37,7 @@ def see(rows, r, c, rdel, cdel):
 
 
 def pack2(rows):
-    rows2 = []
-    for row in rows:
-        rows2.append(row[:])
+    rows2 = deepcopy(rows)
 
     for r in range(1, len(rows) - 1):
         for c in range(1, len(rows[0]) - 1):
