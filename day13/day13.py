@@ -81,8 +81,27 @@ def part2_crt(buses):
             factor += 1
         total = total + term * factor 
 
-    print(buses, total % product)
+    #print(times, total % product)
     return total % product  
+
+
+# Simpler version of my original code - amazing what relaxing to think can do.
+def part2_again(buses):
+    times = []   
+    for i in range(len(buses)):
+        if buses[i] != 'x':
+            times.append([i, int(buses[i])])
+
+    offset = 0
+    period = times[0][1]
+    for i in range(1, len(times)):
+        t = times[i]
+        while (offset + t[0]) % t[1] != 0:
+            offset += period
+        period *= t[1] 
+
+    print(times, offset)
+    return offset  
 
 
 def solution(file):
@@ -96,7 +115,8 @@ def solution(file):
     print("Part1: ", p1)
 
     #p2 = part2(buses)
-    p2 = part2_crt(buses)
+    #p2 = part2_crt(buses)
+    p2 = part2_again(buses)
     print("Part2: ", p2)
 
 
@@ -106,11 +126,17 @@ def main():
     # 67,x,7,59,61 first occurs at timestamp 779210.
     # 67,7,x,59,61 first occurs at timestamp 1261476.
     # 1789,37,47,1889 first occurs at timestamp 1202161486.
-    part2_crt('17,x,13,19'.split(','))
-    part2_crt('67,7,59,61'.split(','))
-    part2_crt('67,x,7,59,61'.split(','))
-    part2_crt('67,7,x,59,61'.split(','))
-    part2_crt('1789,37,47,1889'.split(','))
+    # part2_crt('17,x,13,19'.split(','))
+    # part2_crt('67,7,59,61'.split(','))
+    # part2_crt('67,x,7,59,61'.split(','))
+    # part2_crt('67,7,x,59,61'.split(','))
+    # part2_crt('1789,37,47,1889'.split(','))
+
+    part2_again('17,x,13,19'.split(','))
+    part2_again('67,7,59,61'.split(','))
+    part2_again('67,x,7,59,61'.split(','))
+    part2_again('67,7,x,59,61'.split(','))
+    part2_again('1789,37,47,1889'.split(','))
 
     solution("day13-test.txt")
     solution("day13-input.txt")

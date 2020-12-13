@@ -53,3 +53,16 @@ def totient(n, primes):
     for p in factors:
         result = result * (p ** (factors[p] - 1)) * (p - 1)
     return result
+
+
+def gcd(a, b):
+    p = max(a, b)
+    q = min(a, b)
+    while True:
+        r = p % q
+        if r == 0: 
+            return q
+        p = q
+        q = r
+     
+
