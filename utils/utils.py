@@ -26,3 +26,30 @@ def read_groups(filename, delim = ':', space = ':'):
     return groups
 
 
+def read_primes():
+    lines = read_lines('../utils/primes.txt')
+    primes = []
+    for line in lines:
+        s = line.split()
+        for p in s:
+            primes.append(int(p))
+    return primes  
+
+
+def factorise(n, primes):
+    result = {}
+    for p in primes:
+        if n % p == 0:
+            result[p] = 0
+        while n % p == 0:
+            result[p] = result[p] + 1
+            n = n / p
+    return result           
+
+
+def totient(n, primes):
+    factors = factorise(n, primes)
+    result = 1
+    for p in factors:
+        result = result * (p ** (factors[p] - 1)) * (p - 1)
+    return result

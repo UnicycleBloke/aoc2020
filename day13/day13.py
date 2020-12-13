@@ -60,6 +60,31 @@ def part2(buses):
     return offset  
 
 
+# Using Chinese Remainder Theorem
+def part2_crt(buses):
+    # (x + times[0]) % times[1] == 0 for all buses. Find x.
+    times   = []   
+    # Product of all the bus periods - these are primes, so coprime.
+    product = 1
+    for i in range(len(buses)):
+        if buses[i] != 'x':
+            product *= int(buses[i])
+            times.append([i, int(buses[i])])
+
+    total = 0
+    for time in times:
+        factor = 0
+        # term % time[i] == 0 for all but the current bus 
+        term   = (product // time[1])
+        # Inverse mod operation
+        while ((term * factor + time[0]) % time[1]) != 0:
+            factor += 1
+        total = total + term * factor 
+
+    print(buses, total % product)
+    return total % product  
+
+
 def solution(file):
     print("Input: ", file)
 
@@ -70,7 +95,8 @@ def solution(file):
     p1 = part1(start, buses)
     print("Part1: ", p1)
 
-    p2 = part2(buses)
+    #p2 = part2(buses)
+    p2 = part2_crt(buses)
     print("Part2: ", p2)
 
 
@@ -80,14 +106,15 @@ def main():
     # 67,x,7,59,61 first occurs at timestamp 779210.
     # 67,7,x,59,61 first occurs at timestamp 1261476.
     # 1789,37,47,1889 first occurs at timestamp 1202161486.
-    # part2('17,x,13,19'.split(','))
-    # part2('67,7,59,61'.split(','))
-    # part2('67,x,7,59,61'.split(','))
-    # part2('67,7,x,59,61'.split(','))
-    # part2('1789,37,47,1889'.split(','))
+    part2_crt('17,x,13,19'.split(','))
+    part2_crt('67,7,59,61'.split(','))
+    part2_crt('67,x,7,59,61'.split(','))
+    part2_crt('67,7,x,59,61'.split(','))
+    part2_crt('1789,37,47,1889'.split(','))
 
-    solution("day13-test.txt");
-    solution("day13-input.txt");
+    solution("day13-test.txt")
+    solution("day13-input.txt")
+
 
 if __name__ == '__main__':
     main()
