@@ -66,3 +66,6 @@ def gcd(a, b):
         q = r
      
 
+def lcm(a, b):
+    return (a * b) / gcd(a, b)
+

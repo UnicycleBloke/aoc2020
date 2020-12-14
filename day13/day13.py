@@ -86,6 +86,8 @@ def part2_crt(buses):
 
 
 # Simpler version of my original code - amazing what relaxing to think can do.
+# Actually, this is apparently a sieve search. Does the job anyway, and is the 
+# simplest to understand.
 def part2_again(buses):
     times = []   
     for i in range(len(buses)):
