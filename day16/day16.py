@@ -7,45 +7,29 @@ from copy import deepcopy
 import math
 from functools import reduce
 
-def invalid_sum(fields, ticket, extra):
-    total = 0
-    for p in ticket:
-        valid = False
-        for f in fields:
-            if p >= f[1] and p <= f[2]: valid = True
-            if p >= f[3] and p <= f[4]: valid = True
-        if valid == False:
-            total += (p + extra)
-            # Perfect for Part 1, massive bug in Part 2 due to 0 
-            # value in some ticket being invalid. So add on an extra bit to fix.
-            #total += p
-    return total
 
-
-def field_match(f, p):
-    if p >= f[1] and p <= f[2]: return True
-    if p >= f[3] and p <= f[4]: return True
+def field_match(field, value):
+    if value >= field[1] and value <= field[2]: return True
+    if value >= field[3] and value <= field[4]: return True
     return False
 
 
+def invalid_sum(fields, ticket, extra):
+    return sum([(p + extra) for p in ticket if not any(field_match(f, p) for f in fields)])
+
+
 def part1(fields, ticket, tickets):
-    total = 0
-    for t in tickets:
-        total += invalid_sum(fields, t, 0)
-    return total
+    return sum([invalid_sum(fields, t, 0) for t in tickets])
 
 
 def part2(fields, ticket, tickets):
     valid_tickets = [t for t in tickets if invalid_sum(fields, t, 1) == 0]
 
-    # For each field, find the set of positions for which it matches all 
-    # valid tickets - this is a rule
+    # For each field, find the set of positions for which it matches all valid tickets
     rules = []
     for f in fields:
-        # The field potentially matches all positions for all tickets
         positions = {p for p in range(len(ticket))}
         for t in valid_tickets:
-            # Only some positions match this field for this ticket
             match = {p for p in range(len(ticket)) if field_match(f, t[p]) == True }
             positions = positions.intersection(match)
         rules.append(positions)
@@ -53,18 +37,13 @@ def part2(fields, ticket, tickets):
     # Iterate to find the positions for each field - if the rule has 
     # one entry, that is a match.
     result  = 1
-    result2 = set()
     found   = set()
     for k in range(len(ticket)):
         for i in range(len(rules)):
             if len(rules[i]) == 1:
                 if fields[i][0].startswith('departure'):
-                    p = list(rules[i])[0]
-                    result = result * ticket[p]
-                    result2.add(p)
-                    #print(k, p, ticket[p], fields[i][0], result, result2)
+                    result = result * ticket[list(rules[i])[0]]
                 found = found.union(rules[i]) 
-
         for j in range(len(rules)):
             rules[j] = rules[j] - found
 
