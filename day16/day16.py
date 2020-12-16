@@ -26,17 +26,8 @@ def valid(fields, ticket):
 def part1(fields, ticket, tickets):
     total = 0
     for t in tickets:
-        # for i in t:
-        #     valid = False
-        #     for f in fields:
-        #         if int(i) >= int(f[1]) and int(i) <= int(f[2]): valid = True
-        #         if int(i) >= int(f[3]) and int(i) <= int(f[4]): valid = True
-        #     if valid == False:
-        #         total += int(i)
-        #         print(i)
         total += valid(fields, t)
     return total
-
 
 
 def field_valid_for_ticket(f, t, i):
@@ -47,11 +38,10 @@ def field_valid_for_ticket(f, t, i):
 
 
 def field_valid_for_tickets(f, ts, i):
+    count = 0
     for t in ts:
-        if field_valid_for_ticket(f, t, i) == False:
-            return False
-    return True
-
+        if field_valid_for_ticket(f, t, i) == True: count += 1
+    return count
 
 
 def part2(fields, ticket, tickets):
@@ -60,19 +50,34 @@ def part2(fields, ticket, tickets):
         if valid(fields, t) == 0:
             good.append(t)
 
-    #for f in fields:
-    #    print(f)        
-    #print(good)
+    # Valid tickets
+    for g in good:
+        print(g)   
+    print(len(good))
 
+    # Fields with ranges
+    for f in fields:
+        print(f)   
+    print(len(fields))     
+
+    # Which fields match all valid tickets in position i
+    # ERROR: Most positions have several matches
+    # ERROR: Some positions have none
     rules = {}
-    for g in range(len(fields)):
-        for i in range(len(ticket)):
-            f = fields[g]
-            if field_valid_for_tickets(f, good, i):
-                rules[i] = f
-    print(rules)
+    for i in range(len(ticket)):
+        count = []
+        for f in fields:
+            if field_valid_for_tickets(f, good, i) == len(good):
+                #rules[i] = f
+                count.append(f[0])
+                #break
+        print(i, count)
 
-    #print(ticket)
+    for r in rules:            
+        print(r, rules[r])
+    print(len(rules))     
+
+    print(ticket, len(ticket))
     result = 1
     for r in rules:
         #print(r, rules[r], rules[r][0])
