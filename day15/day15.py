@@ -7,6 +7,7 @@ def run(data, count):
         mem[i] = [idx, idx]
         idx   += 1
         prev   = i
+        print(prev)
 
     while idx < count:
         if mem[prev][0] == mem[prev][1]:
@@ -21,9 +22,10 @@ def run(data, count):
         else:
             mem[prev] = [idx, idx]    
         idx += 1
+        print(prev)
 
     return prev 
 
 data = [19,20,14,0,9,1]
 print("Part 1:", run(data, 2020))
-print("Part 2:", run(data, 30000000))
+#print("Part 2:", run(data, 30000000))
