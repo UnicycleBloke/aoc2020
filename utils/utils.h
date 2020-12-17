@@ -12,6 +12,10 @@
 #include <regex>
 #include <filesystem>
 #include <type_traits>
+#include <chrono>
+
+
+using namespace std;
 
 
 namespace aoc {
@@ -25,7 +29,10 @@ std::string replace(std::string source, const std::string& search, const std::st
 std::vector<std::string> split(std::string source, std::string delim, bool allow_blanks);
 
 std::vector<std::string> read_lines(std::istream& is, bool allow_blanks = false);
+std::vector<std::string> read_lines(std::string filename, bool allow_blanks = false);
+
 std::vector<std::string> read_groups(std::istream& is);
+std::vector<std::string> read_groups(std::string filename);
 
 
 template <typename T>

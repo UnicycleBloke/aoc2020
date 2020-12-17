@@ -55,6 +55,11 @@ std::vector<std::string> split(std::string source, std::string delim, bool allow
         end   = source.find(delim, start);
     }
 
+    auto sub = source.substr(start, end - start);
+    trim(sub);
+    if (allow_blanks || (sub.size() > 0))
+        result.push_back(sub);
+
     return result;
 }
 
@@ -73,6 +78,13 @@ std::vector<std::string> read_lines(std::istream& is, bool allow_blanks)
     }
 
     return lines;
+}
+
+
+std::vector<std::string> read_lines(std::string filename, bool allow_blanks)
+{
+    std::ifstream is{filename};
+    return read_lines(is, allow_blanks);
 }
 
 
@@ -103,6 +115,13 @@ std::vector<std::string> read_groups(std::istream& is)
         groups.push_back(group);
 
     return groups;
+}
+
+
+std::vector<std::string> read_groups(std::string filename)
+{
+    std::ifstream is{filename};
+    return read_groups(is);
 }
 
 
