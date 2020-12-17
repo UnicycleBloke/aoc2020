@@ -9,11 +9,11 @@ from functools import reduce
 
 
 def part1b(data, cycles):
-    alive = {}
+    alive = set()
     for i in range(len(data)):
         for j in range(len(data[i])):
             if data[i][j] == '#':
-                alive[(i+50)*10000 + (j+50)*100 + 50] = 1
+                alive.add((i+50)*10000 + (j+50)*100 + 50)
 
     for s in range(cycles):
         neighbours = {}
@@ -31,12 +31,12 @@ def part1b(data, cycles):
                 else:
                     neighbours[q] = 1
 
-        alive2 = {}
+        alive2 = set()
         for c in neighbours:
             if c in alive and neighbours[c] in [2, 3]:
-                alive2[c] = 1 
+                alive2.add(c) 
             if c not in alive and neighbours[c] == 3:
-                alive2[c] = 1 
+                alive2.add(c) 
         alive = alive2
         print(s, len(alive))
 
@@ -44,11 +44,11 @@ def part1b(data, cycles):
 
 
 def part2b(data, cycles):
-    alive = {}
+    alive = set()
     for i in range(len(data)):
         for j in range(len(data[i])):
             if data[i][j] == '#':
-                alive[(i+50)*1000000 + (j+50)*10000 + 5000 + 50] = 1
+                alive.add((i+50)*1000000 + (j+50)*10000 + 5000 + 50)
 
     for s in range(cycles):
         neighbours = {}
@@ -67,12 +67,12 @@ def part2b(data, cycles):
                 else:
                     neighbours[q] = 1
 
-        alive2 = {}
+        alive2 = set()
         for c in neighbours:
             if c in alive and neighbours[c] in [2, 3]:
-                alive2[c] = 1 
+                alive2.add(c) 
             if c not in alive and neighbours[c] == 3:
-                alive2[c] = 1 
+                alive2.add(c) 
         alive = alive2
         print(s, len(alive))
 
