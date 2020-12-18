@@ -1,13 +1,10 @@
-import re
 import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import utils.utils as ut
-from copy import deepcopy
-import math
-from functools import reduce
 
-def evaluate(expr):
+
+def convert_to_rpn1(expr):
     items = expr.replace('(', ' ( ').replace(')', ' ) ').split()
     output = []
     stack  = []
@@ -32,24 +29,11 @@ def evaluate(expr):
     for i in range(len(stack)):
         op = stack.pop()
         output.append(op)
-
-    stack2 = []
-    for c in output:
-        if c == '+': 
-            a = stack2.pop()
-            b = stack2.pop()
-            stack2.append(a + b)
-        elif c == '*':
-            a = stack2.pop()
-            b = stack2.pop()
-            stack2.append(a * b)
-        else:
-            stack2.append(c)
-
-    return stack2[0]
+    
+    return output
 
 
-def evaluate2(expr):
+def convert_to_rpn2(expr):
     items = expr.replace('(', ' ( ').replace(')', ' ) ').split()
     output = []
     stack  = []
@@ -74,45 +58,49 @@ def evaluate2(expr):
     for i in range(len(stack)):
         op = stack.pop()
         output.append(op)
+    
+    return output
 
-    stack2 = []
-    for c in output:
+
+def evaluate(rpn):
+    stack = []
+    for c in rpn:
         if c == '+': 
-            a = stack2.pop()
-            b = stack2.pop()
-            stack2.append(a + b)
+            a = stack.pop()
+            b = stack.pop()
+            stack.append(a + b)
         elif c == '*':
-            a = stack2.pop()
-            b = stack2.pop()
-            stack2.append(a * b)
+            a = stack.pop()
+            b = stack.pop()
+            stack.append(a * b)
         else:
-            stack2.append(c)
-
-    return stack2[0]
+            stack.append(c)
+    return stack[0]
 
 
 def part1(data):
     total = 0
     for expr in data:
-        total = total + evaluate(expr)
+        rpn = convert_to_rpn1(expr)
+        total = total + evaluate(rpn)
     return total
 
 
 def part2(data):
     total = 0
     for expr in data:
-        total = total + evaluate2(expr)
+        rpn = convert_to_rpn2(expr)
+        total = total + evaluate(rpn)
     return total
 
 
 def solution(file):
     print("Input: ", file)
-    lines = ut.read_lines(file)
-
-    data = lines
+    data = ut.read_lines(file)
 
     p1 = part1(data)
     print("Part1: ", p1)
+
     p2 = part2(data)
     print("Part2: ", p2)
 
