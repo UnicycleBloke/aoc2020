@@ -13,12 +13,7 @@ def evaluate(expr):
     stack  = []
 
     for c in items:
-        if c == '+': 
-            while len(stack) > 0 and stack[-1] != '(':
-                op = stack.pop()
-                output.append(op)
-            stack.append(c)
-        elif c == '*':
+        if c in ['+', '*']: 
             while len(stack) > 0 and stack[-1] != '(':
                 op = stack.pop()
                 output.append(op)
@@ -60,13 +55,8 @@ def evaluate2(expr):
     stack  = []
 
     for c in items:
-        if c == '+': 
-            while (len(stack) > 0) and (stack[-1] != '(') and (stack[-1] != '*'):
-                op = stack.pop()
-                output.append(op)
-            stack.append(c)
-        elif c == '*':
-            while (len(stack) > 0) and (stack[-1] == '+'): 
+        if c in ['+', '*']: 
+            while (len(stack) > 0) and (stack[-1] == '+'):
                 op = stack.pop()
                 output.append(op)
             stack.append(c)
