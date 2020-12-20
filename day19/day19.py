@@ -66,7 +66,11 @@ def solution(file):
     data = ut.read_lines(file, True)
 
     rules = {}
-    subs  = {}
+    for i, line in enumerate(data):
+        if len(line.strip()) == 0: 
+            break
+
+    rules = {}
     for i, line in enumerate(data):
         if len(line.strip()) == 0: 
             break
