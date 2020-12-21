@@ -20,60 +20,33 @@ def solution(file):
         food.alls = set(temp[1].split())
         foods.append(food)
 
-    # Set of all ingredients from all foods  
-    ingredients = set()
-    # Map of allergens to the set of ingredients they could be
-    all_2_ings = {} 
+    xxx_ingredients     = set.union(*[f.ings for f in foods])
+    eng_allergens       = set.union(*[f.alls for f in foods])
+    eng_all_to_xxx_ings = {a:set.intersection(*[f.ings for f in foods if a in f.alls]) for a in eng_allergens} 
+    xxx_allergens       = set.union(*[eng_all_to_xxx_ings[a] for a in eng_allergens])
 
-    for f in foods:
-        ingredients = ingredients.union(f.ings)
-        for a in f.alls:
-            if a in all_2_ings:
-                all_2_ings[a] = all_2_ings[a].intersection(f.ings)
-            else:
-                all_2_ings[a] = set(f.ings)
-
-    # Set of all ingredients which are allergens
-    allergens  = set()
-    for a in all_2_ings:
-        allergens = allergens.union(all_2_ings[a])
-
-    safe = ingredients.difference(allergens)
+    # Part 1
+    safe = xxx_ingredients.difference(xxx_allergens)
     print('Part1:', sum([len(safe.intersection(f.ings)) for f in foods]))
 
-
+    # Part 2
     # Map of ingredients identified as allergens
-    ing_2_all = {}
-
+    eng_all_to_ing = {}
     while True:
-        found = False
+        # Find allergens which can be only one of the ingredients.
+        pairs = {a:i for (a,i) in eng_all_to_xxx_ings.items() if len(i) == 1}
+        # Assume zero or more matches.
+        for p in pairs: 
+            eng_all_to_ing[p] = list(pairs[p])[0] 
+        # Zero means we're done - or the system of constraints can't be resolved. 
+        if len(pairs) == 0: 
+            break
+        # Remove all the found ingredients from the food items for the next go around.
+        ings = set.union(*[pairs[a] for a in pairs])        
+        eng_all_to_xxx_ings = {a:i.difference(ings) for (a,i) in eng_all_to_xxx_ings.items()}
 
-        # Narrow down the set of ingredients that each allergen might be.
-        for a in all_2_ings:
-            ings = ingredients.copy()
-            for f in foods:
-                if a in f.alls:
-                    ings = ings.intersection(f.ings)
-
-            # We identified an allergen 
-            if len(ings) == 1:
-                ing_2_all[list(ings)[0]] = a
-                found = True
-                break
-
-        # Remove the allergens that have been identified.
-        for f in foods:
-            for i in ing_2_all:
-                f.ings = f.ings.difference(set([i]))
-                f.alls = f.alls.difference(set([ing_2_all[i]])) 
-
-        # We're done. This assumes we will always find an allergen. Not sure 
-        # the constraints could be solved otherwise.
-        if found == False: 
-            break        
-
-    pairs = [(k, ing_2_all[k]) for k in ing_2_all]
-    print('Part2:', ','.join([x[0] for x in sorted(pairs, key=lambda x: x[1])]))
+    print('Part2:', ','.join([i for i in sorted(eng_all_to_ing)]))
+    print('Part2:', ','.join([eng_all_to_ing[i] for i in sorted(eng_all_to_ing)]))
 
 
 def main():
